@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+    <title>适配不同手机分辨率</title>
+</head>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    font-size: .1rem;
+    list-style: none;
+    box-sizing: border-box;
+    outline: 0;
+}
+
+html {
+    /*font-size: 100px;*/
+    /*font-size: calc(5px + 2vmin);*/
+}
+
+.container {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+}
+
+span {
+
+    /*flex:1;*/
+    height: .4rem;
+    line-height: .4rem;
+    font-size: .2rem;
+    text-align: center;
+    border: 1px solid #ddd;
+
+}
+
+img {
+    width: 200px;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    z-index: 99;
+}
+
+footer ul {
+    box-sizing: border-box;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 1001;
+    background-color: #ffffff;
+    border-top: 1px solid #e7e7e7;
+    border-bottom: 1px solid #f8f8f8;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    padding: 0 20px;
+    padding-top: 2px;
+    padding-bottom: constant(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+footer li {
+    /*flex: 1;*/
+    /*padding:5px;*/
+    background: #abcdef;
+    text-align: center;
+    font-size: 12px;
+}
+
+footer li img {
+    width: 20px;
+}
+
+footer li a {
+    display: block;
+    font-size: 12px;
+}
+</style>
+
+<body>
+    <div class="main">
+        <div class='container'>
+            <span>container 1</span>
+            <span>container 2</span>
+            <span>container 3</span>
+        </div>
+        <div>
+            <img src="../../imgs/1.jpg" alt="">
+        </div>
+        <footer>
+            <ul>
+                <li><img src="../../imgs/2.jpeg" alt=""><a href="#n">菜单1</a></li>
+                <li><img src="../../imgs/2.jpeg" alt=""><a href="#n">菜单菜单2</a></li>
+                <li><img src="../../imgs/2.jpeg" alt=""><a href="#n">菜单3</a></li>
+                <li><img src="../../imgs/2.jpeg" alt=""><a href="#n">菜单菜单菜单4</a></li>
+            </ul>
+        </footer>
+    </div>
+</body>
+<script>
+(function() {
+    function setInitialRem(_standard, base_DPR) {
+        //取得当前设备DPR
+        var dpr = window.devicePixelRatio || 1;
+        //如果设定了默认最小DPR值
+        if (base_DPR) {
+            dpr = dpr >= base_DPR ? dpr : base_DPR;
+        }
+        //设定缩放视图比例
+        var scale = 1;
+        // var scale = 1 / dpr;
+        //设直视图缩放比例
+        document.head.querySelector('meta[name="viewport"]').content = "width=device-width,initial-scale=" + scale + ",minimum-scale=" + scale + ",maximum-scale=" + scale + ",user-scalable=no, shrink-to-fit=no";
+
+        //取得当前设备宽度
+        var device_width = document.documentElement.clientWidth; //window.innerWidth;
+        //标定原稿设计基准值 当前稿件设计宽度为 iPhone6/6s 375像素
+        var standard_width = _standard * dpr;
+        //设定基准单位
+        var base_value = 100;
+        //基准系数=设备宽度➗稿件基准宽度✖️设备DPR✖️10
+        var rem = device_width / standard_width * dpr * base_value;
+        //设置 REM
+        document.documentElement.style.fontSize = rem + "px";
+
+
+    }
+    window.addEventListener("resize", function() { setInitialRem(375, 1); });
+
+    setInitialRem(375, 1);
+
+
+})();
+
+function matchAndUpdate() {
+    console.log('router', arguments)
+    // todo 匹配路径 做 dom 更新操作
+}
+
+window.addEventListener('popstate', matchAndUpdate)
+var obj = {};
+
+Object.defineProperty(obj, 'key', {
+        get: () => {
+            console.log('get = ', this);
+            return 20;
+        },
+        set: (newValue) => {
+            console.log('set = ', this);
+
+        }
+    })
+    // console.log('a = ',a);
+    // for(var x = 0;x<1;x++){
+    //  var a = 22;
+    // }
+    // console.log('a = ',a);
+    // function fn1 (){
+    //  return new Promise((resolve,reject)=>{
+    //      setTimeout(function(){
+    //          reject('reject fn1');
+    //      },3000);
+    //  })
+
+    // }
+
+    // function fn2(){
+    //  return new Promise((resolve,reject)=>{
+    //      setTimeout(function(){
+    //          resolve('resolve fn2');
+    //      },1000);
+    //  })
+    // }
+
+    // // let fn1 = Promise.resolve('fn1-'+true);
+    // // let fn2 = Promise.reject('fn2-'+false);
+    // let fn3 = Promise.resolve('fn3-'+true);
+    // let fns = [];
+    // fns.push(fn3);
+    // // fns.push(fn1;
+    // // fns.push(fn2);
+
+    // fns.push(fn1());
+    // fns.push(fn2());
+
+    // // Promise.race(fns).then(resolve => {
+    // //             console.log('resolve = ', resolve);
+    // //         }).catch(reject => {
+    // //             console.log('reject = ', reject);
+    // //         })
+
+    // Promise.all(fns.map(err => err.catch(error => error))).then(resolve => {
+    //             console.log('resolve = ', resolve);
+    //         }).catch(reject => {
+    //             console.log('reject = ', reject);
+    //         })
+
+    // // Promise.allSettled(fns).then(resolve => {
+    // //             console.log('resolve = ', resolve);
+    // //         }).catch(reject => {
+    // //             console.log('reject = ', reject);
+    // //         })
+
+    // function fn(){
+    //  var a = 1;
+    //  function getA (){
+    //      a++;
+    //      return a;
+    //  }
+    //  return getA;
+    // }
+    // var fnc = fn()
+    // console.log(fnc());
+
+
+    !(function() {
+        let lives = 30;
+        window.addlive = function() {
+            return ++lives;
+        }
+        window.removelive = function() {
+            return --lives;
+        }
+
+    })();
+
+// console.log(addlive());
+console.log(removelive());
+// console.log('lives = ',lives);
+</script>
+
+</html>
